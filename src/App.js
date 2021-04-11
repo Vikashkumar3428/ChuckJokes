@@ -1,53 +1,48 @@
-import React, {Component} from 'react';
+import React, { useState} from 'react';
 import './App.css';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
-class App extends Component {
-  constructor(){
-    super();
-    this.state={
-      data:false
-    }
-  }
-  componentDidMount()
-  {
-    let url = "https://api.chucknorris.io/jokes/categories";
-    fetch(url, {
-      method:'GET',
-      headers:{
-        'Accept':'application/json',
-        'Content-Type':'application/json',
-      }
-    }).then(result=>{
-      result.json().then((res) =>{
-        this.setState({data:res})
-      })
+function App() {
+  
+  const [cate,setCate] = useState('None');
 
-    })
+  function cat(item) {
+    setCate(item);
   }
 
-  render(){
-    const data = this.state.data;
-    console.warn(data);
+  const [data, setData] = useState([]);   
+    
+  
+  fetch('https://api.chucknorris.io/jokes/categories')
+  .then(response => response.json())
+  .then((json) =>{
+    console.log(json);
+    setData(json);
+    });
+   
+  const items = data;
   return (
+    <div className=""><h1 className="mt-5"><b>Chuck Norries</b></h1>
     <div className="App">
-      <div className="container">
-        {
-          data?
-          <div className="fluid-contanier bg-aqua">
-            {
-              data.map(function(item, i){
-                return <Button variant= "light" key={i}>{data}</Button>
-              })
-            }
-          {/* <button type="button" class="btn btn-light">{data}</button> */}
+      
+     <div className="pb-4 ">
+        <br />
+        {items.map(item=>
+        <Button className="button my-2 mx-3" onClick={cat(item)} variant="light" size ="sm" >{item}</Button>
+        )}
+        
+        </div> 
+     </div>
+     <div className="">
+          <h3 className="cat_selected">Selected Category : {cate}</h3>
+            <div className="para_div"><p className="para py-10">When In A Bar, You Can Order A Drink Called A "Chuck Norris".It is Also Known As A "Bloody Mary", If Your Name Happens To Be Mary.</p></div>
         </div>
-        : <p>Please Wait......</p>
-        }
-      </div>
-    </div>
+        
+        <a href="#"><p className="joke">New Joke</p></a>
+        
+     </div>
   );
-}
+
 }
 
 export default App;
