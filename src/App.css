@@ -21,7 +21,9 @@ align-items: center;
 }
 .joke{
   margin-top: 5vh;
-  text-align: center;
-align-items: center;
-left: 50%;
+  position: absolute;
+  margin-left: 43vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
